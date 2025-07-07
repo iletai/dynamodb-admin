@@ -26,7 +26,7 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: aaronshaf/dynamodb-admin:latest,aaronshaf/dynamodb-admin:${{ env.VERSION }}
+          tags: iletai/dynamodb-admin:latest,iletai/dynamodb-admin:${{ env.VERSION }}
 
   dockerHubDescription:
     needs: docker
@@ -38,5 +38,5 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: aaronshaf/dynamodb-admin
+          repository: iletai/dynamodb-admin
           short-description: ${{ github.event.repository.description }}
