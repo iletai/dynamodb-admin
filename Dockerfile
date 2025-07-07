@@ -1,6 +1,6 @@
-FROM node:20-alpine AS build
+FROM node:20-alpine3.20 AS build
 
-RUN npm -g install npm@10
+RUN npm install -g npm@10
 
 COPY bin bin/
 COPY lib lib/
@@ -11,13 +11,14 @@ COPY tsconfig.json .
 
 RUN npm ci
 
-FROM node:20-alpine
+FROM node:20-alpine3.20
 EXPOSE 8001
 
 WORKDIR /home/node/app
 
-RUN apk add --no-cache tini
-RUN npm -g install npm@10
+# Update apk and tini to latest to reduce vulnerabilities
+RUN apk update && apk upgrade && apk add --no-cache tini
+RUN npm install -g npm@10
 
 COPY --from=build dist dist/
 COPY public public/

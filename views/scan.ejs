@@ -185,6 +185,8 @@
                     </td>
                     <td style="width: 140px">
                       <select class="form-control filter-row-operator">
+                        <!-- Debug: Available operators -->
+                        <% console.log('Operators available:', operators); %>
                         <% for (const operator in operators) { %>
                           <option value="<%= operator %>"><%= operators[operator] %></option>
                         <% } %>
@@ -246,10 +248,14 @@
         const operatorField = filterRow.querySelector('.filter-row-operator')
         const valueField = filterRow.querySelector('.filter-row-value')
 
-        if (keyField.value && valueField.value) {
+        // Some operators don't require values (attribute_exists, attribute_not_exists)
+        const operatorsWithoutValues = ['attribute_exists', 'attribute_not_exists']
+        const requiresValue = !operatorsWithoutValues.includes(operatorField.value)
+
+        if (keyField.value && (valueField.value || !requiresValue)) {
           filters[keyField.value] = {
             operator: operatorField.value,
-            value: valueField.value,
+            value: requiresValue ? valueField.value : '',
             type: typeField.value,
           }
         }
@@ -278,6 +284,31 @@
     document.querySelector('#add-filter').addEventListener('click', (event) => {
       event.preventDefault()
       addFilter()
+    })
+
+    // Add event listener for operator changes to handle value field visibility
+    document.addEventListener('change', (event) => {
+      if (event.target.classList.contains('filter-row-operator')) {
+        const operatorsWithoutValues = ['attribute_exists', 'attribute_not_exists']
+        const valueField = event.target.closest('tr').querySelector('.filter-row-value')
+        const requiresValue = !operatorsWithoutValues.includes(event.target.value)
+
+        if (requiresValue) {
+          valueField.style.display = ''
+          valueField.removeAttribute('disabled')
+          if (event.target.value === 'between') {
+            valueField.placeholder = 'Value1, Value2'
+            valueField.title = 'Enter two comma-separated values for BETWEEN operator'
+          } else {
+            valueField.placeholder = 'Value'
+            valueField.title = ''
+          }
+        } else {
+          valueField.style.display = 'none'
+          valueField.setAttribute('disabled', true)
+          valueField.value = ''
+        }
+      }
     })
 
     function requireIndexFilters () {
@@ -382,7 +413,7 @@
     }
 
     function addRangeKeyFilter (rangeKey, values) {
-      addFilter(rangeKey, values, false, ['=', '<', '<=', '>', '>=', 'BETWEEN', 'begins_with'])
+      addFilter(rangeKey, values, false, ['=', '<', '<=', '>', '>=', 'between', 'begins_with'])
     }
 
     function removeFilter (node) {
