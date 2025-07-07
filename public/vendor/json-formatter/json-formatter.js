@@ -6,11 +6,11 @@ window.JSONFormatter = function(modules) {
             l: !1,
             exports: {}
         };
-        return modules[moduleId].call(module.exports, module, module.exports, __webpack_require__), 
+        return modules[moduleId].call(module.exports, module, module.exports, __webpack_require__),
         module.l = !0, module.exports;
     }
     var installedModules = {};
-    return __webpack_require__.m = modules, __webpack_require__.c = installedModules, 
+    return __webpack_require__.m = modules, __webpack_require__.c = installedModules,
     __webpack_require__.i = function(value) {
         return value;
     }, __webpack_require__.d = function(exports, name, getter) {
@@ -34,7 +34,7 @@ window.JSONFormatter = function(modules) {
     Object.defineProperty(__webpack_exports__, "__esModule", {
         value: !0
     });
-    var __WEBPACK_IMPORTED_MODULE_0__helpers__ = __webpack_require__(5), __WEBPACK_IMPORTED_MODULE_1__style_less__ = __webpack_require__(4), DATE_STRING_REGEX = (__webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__style_less__), 
+    var __WEBPACK_IMPORTED_MODULE_0__helpers__ = __webpack_require__(5), __WEBPACK_IMPORTED_MODULE_1__style_less__ = __webpack_require__(4), DATE_STRING_REGEX = (__webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__style_less__),
     /(^\d{1,4}[\.|\\\/|-]\d{1,2}[\.|\\\/|-]\d{1,4})(\s*(?:0?[1-9]:[0-5]|1(?=[012])\d:[0-5])\d\s*[ap]m)?$/), PARTIAL_DATE_REGEX = /\d{2}:\d{2}:\d{2} GMT-\d{4}/, JSON_DATE_REGEX = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/, requestAnimationFrame = window.requestAnimationFrame || function(cb) {
         return cb(), 0;
     }, _defaultConfig = {
@@ -48,10 +48,10 @@ window.JSONFormatter = function(modules) {
         sortPropertiesBy: null
     }, JSONFormatter = function() {
         function JSONFormatter(json, open, config, key) {
-            void 0 === open && (open = 1), void 0 === config && (config = _defaultConfig), this.json = json, 
-            this.open = open, this.config = config, this.key = key, this._isOpen = null, void 0 === this.config.hoverPreviewEnabled && (this.config.hoverPreviewEnabled = _defaultConfig.hoverPreviewEnabled), 
-            void 0 === this.config.hoverPreviewArrayCount && (this.config.hoverPreviewArrayCount = _defaultConfig.hoverPreviewArrayCount), 
-            void 0 === this.config.hoverPreviewFieldCount && (this.config.hoverPreviewFieldCount = _defaultConfig.hoverPreviewFieldCount), 
+            void 0 === open && (open = 1), void 0 === config && (config = _defaultConfig), this.json = json,
+            this.open = open, this.config = config, this.key = key, this._isOpen = null, void 0 === this.config.hoverPreviewEnabled && (this.config.hoverPreviewEnabled = _defaultConfig.hoverPreviewEnabled),
+            void 0 === this.config.hoverPreviewArrayCount && (this.config.hoverPreviewArrayCount = _defaultConfig.hoverPreviewArrayCount),
+            void 0 === this.config.hoverPreviewFieldCount && (this.config.hoverPreviewFieldCount = _defaultConfig.hoverPreviewFieldCount),
             void 0 === this.config.useToJSON && (this.config.useToJSON = _defaultConfig.useToJSON);
         }
         return Object.defineProperty(JSONFormatter.prototype, "isOpen", {
@@ -136,11 +136,11 @@ window.JSONFormatter = function(modules) {
             enumerable: !0,
             configurable: !0
         }), JSONFormatter.prototype.toggleOpen = function() {
-            this.isOpen = !this.isOpen, this.element && (this.isOpen ? this.appendChildren(this.config.animateOpen) : this.removeChildren(this.config.animateClose), 
+            this.isOpen = !this.isOpen, this.element && (this.isOpen ? this.appendChildren(this.config.animateOpen) : this.removeChildren(this.config.animateClose),
             this.element.classList.toggle(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("open")));
         }, JSONFormatter.prototype.openAtDepth = function(depth) {
-            void 0 === depth && (depth = 1), depth < 0 || (this.open = depth, this.isOpen = 0 !== depth, 
-            this.element && (this.removeChildren(!1), 0 === depth ? this.element.classList.remove(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("open")) : (this.appendChildren(this.config.animateOpen), 
+            void 0 === depth && (depth = 1), depth < 0 || (this.open = depth, this.isOpen = 0 !== depth,
+            this.element && (this.removeChildren(!1), 0 === depth ? this.element.classList.remove(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("open")) : (this.appendChildren(this.config.animateOpen),
             this.element.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("open")))));
         }, JSONFormatter.prototype.getInlinepreview = function() {
             var _this = this;
@@ -152,23 +152,23 @@ window.JSONFormatter = function(modules) {
         }, JSONFormatter.prototype.render = function() {
             this.element = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("div", "row");
             var togglerLink = this.isObject ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("a", "toggler-link") : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span");
-            if (this.isObject && !this.useToJSON && togglerLink.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "toggler")), 
-            this.hasKey && togglerLink.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "key", this.key + ":")), 
+            if (this.isObject && !this.useToJSON && togglerLink.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "toggler")),
+            this.hasKey && togglerLink.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "key", this.key + ":")),
             this.isObject && !this.useToJSON) {
                 var value = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "value"), objectWrapperSpan = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span"), constructorName = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "constructor-name", this.constructorName);
                 if (objectWrapperSpan.appendChild(constructorName), this.isArray) {
                     var arrayWrapperSpan = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span");
-                    arrayWrapperSpan.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "bracket", "[")), 
-                    arrayWrapperSpan.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "number", this.json.length)), 
-                    arrayWrapperSpan.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "bracket", "]")), 
+                    arrayWrapperSpan.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "bracket", "[")),
+                    arrayWrapperSpan.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "number", this.json.length)),
+                    arrayWrapperSpan.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span", "bracket", "]")),
                     objectWrapperSpan.appendChild(arrayWrapperSpan);
                 }
                 value.appendChild(objectWrapperSpan), togglerLink.appendChild(value);
             } else {
                 var value = this.isUrl ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("a") : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("span");
-                value.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)(this.type)), 
-                this.isDate && value.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("date")), 
-                this.isUrl && (value.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("url")), 
+                value.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)(this.type)),
+                this.isDate && value.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("date")),
+                this.isUrl && (value.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("url")),
                 value.setAttribute("href", this.json));
                 var valuePreview = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.f)(this.type, this.json, this.useToJSON ? this.json.toJSON() : this.json);
                 value.appendChild(document.createTextNode(valuePreview)), togglerLink.appendChild(value);
@@ -178,13 +178,13 @@ window.JSONFormatter = function(modules) {
                 preview.appendChild(document.createTextNode(this.getInlinepreview())), togglerLink.appendChild(preview);
             }
             var children = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.e)("div", "children");
-            return this.isObject && children.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("object")), 
-            this.isArray && children.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("array")), 
-            this.isEmpty && children.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("empty")), 
-            this.config && this.config.theme && this.element.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)(this.config.theme)), 
-            this.isOpen && this.element.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("open")), 
-            this.element.appendChild(togglerLink), this.element.appendChild(children), this.isObject && this.isOpen && this.appendChildren(), 
-            this.isObject && !this.useToJSON && togglerLink.addEventListener("click", this.toggleOpen.bind(this)), 
+            return this.isObject && children.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("object")),
+            this.isArray && children.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("array")),
+            this.isEmpty && children.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("empty")),
+            this.config && this.config.theme && this.element.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)(this.config.theme)),
+            this.isOpen && this.element.classList.add(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("open")),
+            this.element.appendChild(togglerLink), this.element.appendChild(children), this.isObject && this.isOpen && this.appendChildren(),
+            this.isObject && !this.useToJSON && togglerLink.addEventListener("click", this.toggleOpen.bind(this)),
             this.element;
         }, JSONFormatter.prototype.appendChildren = function(animated) {
             var _this = this;
@@ -205,7 +205,7 @@ window.JSONFormatter = function(modules) {
             var childrenElement = this.element.querySelector("div." + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers__.c)("children"));
             if (animated) {
                 var childrenRemoved_1 = 0, removeAChild_1 = function() {
-                    childrenElement && childrenElement.children.length && (childrenElement.removeChild(childrenElement.children[0]), 
+                    childrenElement && childrenElement.children.length && (childrenElement.removeChild(childrenElement.children[0]),
                     childrenRemoved_1 += 1, childrenRemoved_1 > 10 ? removeAChild_1() : requestAnimationFrame(removeAChild_1));
                 };
                 requestAnimationFrame(removeAChild_1);
@@ -232,7 +232,7 @@ window.JSONFormatter = function(modules) {
             }
             for (i = 0; i < modules.length; i++) {
                 var item = modules[i];
-                "number" == typeof item[0] && alreadyImportedModules[item[0]] || (mediaQuery && !item[2] ? item[2] = mediaQuery : mediaQuery && (item[2] = "(" + item[2] + ") and (" + mediaQuery + ")"), 
+                "number" == typeof item[0] && alreadyImportedModules[item[0]] || (mediaQuery && !item[2] ? item[2] = mediaQuery : mediaQuery && (item[2] = "(" + item[2] + ") and (" + mediaQuery + ")"),
                 list.push(item));
             }
         }, list;
@@ -271,7 +271,7 @@ window.JSONFormatter = function(modules) {
     }
     function insertStyleElement(options, styleElement) {
         var head = getHeadElement(), lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-        if ("top" === options.insertAt) lastStyleElementInsertedAtTop ? lastStyleElementInsertedAtTop.nextSibling ? head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling) : head.appendChild(styleElement) : head.insertBefore(styleElement, head.firstChild), 
+        if ("top" === options.insertAt) lastStyleElementInsertedAtTop ? lastStyleElementInsertedAtTop.nextSibling ? head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling) : head.appendChild(styleElement) : head.insertBefore(styleElement, head.firstChild),
         styleElementsInsertedAtTop.push(styleElement); else {
             if ("bottom" !== options.insertAt) throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
             head.appendChild(styleElement);
@@ -284,24 +284,24 @@ window.JSONFormatter = function(modules) {
     }
     function createStyleElement(options) {
         var styleElement = document.createElement("style");
-        return styleElement.type = "text/css", insertStyleElement(options, styleElement), 
+        return styleElement.type = "text/css", insertStyleElement(options, styleElement),
         styleElement;
     }
     function createLinkElement(options) {
         var linkElement = document.createElement("link");
-        return linkElement.rel = "stylesheet", insertStyleElement(options, linkElement), 
+        return linkElement.rel = "stylesheet", insertStyleElement(options, linkElement),
         linkElement;
     }
     function addStyle(obj, options) {
         var styleElement, update, remove;
         if (options.singleton) {
             var styleIndex = singletonCounter++;
-            styleElement = singletonElement || (singletonElement = createStyleElement(options)), 
+            styleElement = singletonElement || (singletonElement = createStyleElement(options)),
             update = applyToSingletonTag.bind(null, styleElement, styleIndex, !1), remove = applyToSingletonTag.bind(null, styleElement, styleIndex, !0);
-        } else obj.sourceMap && "function" == typeof URL && "function" == typeof URL.createObjectURL && "function" == typeof URL.revokeObjectURL && "function" == typeof Blob && "function" == typeof btoa ? (styleElement = createLinkElement(options), 
+        } else obj.sourceMap && "function" == typeof URL && "function" == typeof URL.createObjectURL && "function" == typeof URL.revokeObjectURL && "function" == typeof Blob && "function" == typeof btoa ? (styleElement = createLinkElement(options),
         update = updateLink.bind(null, styleElement), remove = function() {
             removeStyleElement(styleElement), styleElement.href && URL.revokeObjectURL(styleElement.href);
-        }) : (styleElement = createStyleElement(options), update = applyToTag.bind(null, styleElement), 
+        }) : (styleElement = createStyleElement(options), update = applyToTag.bind(null, styleElement),
         remove = function() {
             removeStyleElement(styleElement);
         });
@@ -346,7 +346,7 @@ window.JSONFormatter = function(modules) {
     }), singletonElement = null, singletonCounter = 0, styleElementsInsertedAtTop = [];
     module.exports = function(list, options) {
         if ("undefined" != typeof DEBUG && DEBUG && "object" != typeof document) throw new Error("The style-loader cannot be used in a non-browser environment");
-        options = options || {}, void 0 === options.singleton && (options.singleton = isOldIE()), 
+        options = options || {}, void 0 === options.singleton && (options.singleton = isOldIE()),
         void 0 === options.insertAt && (options.insertAt = "bottom");
         var styles = listToStyles(list);
         return addStylesToDom(styles, options), function(newList) {
@@ -394,12 +394,12 @@ window.JSONFormatter = function(modules) {
         return results && results.length > 1 ? results[1] : "";
     }
     function getValuePreview(type, object, value) {
-        return "null" === type || "undefined" === type ? type : ("string" !== type && "stringifiable" !== type || (value = '"' + escapeString(value) + '"'), 
+        return "null" === type || "undefined" === type ? type : ("string" !== type && "stringifiable" !== type || (value = '"' + escapeString(value) + '"'),
         "function" === type ? object.toString().replace(/[\r\n]/g, "").replace(/\{.*\}/, "") + "{…}" : value);
     }
     function getPreview(type, object) {
         var value = "";
-        return isObject(object) ? (value = getObjectName(object), Array.isArray(object) && (value += "[" + object.length + "]")) : value = getValuePreview(type, object, object), 
+        return isObject(object) ? (value = getObjectName(object), Array.isArray(object) && (value += "[" + object.length + "]")) : value = getValuePreview(type, object, object),
         value;
     }
     function cssClass(className) {
@@ -407,10 +407,10 @@ window.JSONFormatter = function(modules) {
     }
     function createElement(type, className, content) {
         var el = document.createElement(type);
-        return className && el.classList.add(cssClass(className)), void 0 !== content && (content instanceof Node ? el.appendChild(content) : el.appendChild(document.createTextNode(String(content)))), 
+        return className && el.classList.add(cssClass(className)), void 0 !== content && (content instanceof Node ? el.appendChild(content) : el.appendChild(document.createTextNode(String(content)))),
         el;
     }
-    __webpack_exports__.a = isObject, __webpack_exports__.b = getObjectName, __webpack_exports__.f = getValuePreview, 
+    __webpack_exports__.a = isObject, __webpack_exports__.b = getObjectName, __webpack_exports__.f = getValuePreview,
     __webpack_exports__.d = getPreview, __webpack_exports__.c = cssClass, __webpack_exports__.e = createElement;
 }, function(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(0);

@@ -1,5 +1,13 @@
-import type { AttributeDefinition, KeySchemaElement, QueryInput, TableDescription } from '@aws-sdk/client-dynamodb';
-import type { ScanCommandInput, QueryCommandInput } from '@aws-sdk/lib-dynamodb';
+import type {
+    AttributeDefinition,
+    KeySchemaElement,
+    QueryInput,
+    TableDescription,
+} from '@aws-sdk/client-dynamodb';
+import type {
+    QueryCommandInput,
+    ScanCommandInput,
+} from '@aws-sdk/lib-dynamodb';
 import type { DynamoApiController } from './dynamoDbApi';
 import type { ItemList, Key } from './types';
 
@@ -12,24 +20,43 @@ export class DynamoDBAdminError extends Error {
     }
 }
 
-export type ScanParams = Omit<ScanCommandInput & QueryInput, 'TableName' | 'Limit'>;
+export type ScanParams = Omit<
+  ScanCommandInput & QueryInput,
+  'TableName' | 'Limit'
+>;
 
-export function extractKey(item: Record<string, any>, keySchema: KeySchemaElement[]): Record<string, any> {
+export function extractKey(
+    item: Record<string, any>,
+    keySchema: KeySchemaElement[],
+): Record<string, any> {
     return keySchema.reduce((prev, current) => {
         return {
             ...prev,
-            ...current.AttributeName ? { [current.AttributeName]: item[current.AttributeName] } : {},
+            ...current.AttributeName
+                ? { [current.AttributeName]: item[current.AttributeName] }
+                : {},
         };
     }, {});
 }
 
-export function parseKey(keys: string, tableDescription: TableDescription): Record<string, string | number> {
+export function parseKey(
+    keys: string,
+    tableDescription: TableDescription,
+): Record<string, string | number> {
     const splitKeys = keys.split(',');
 
     return tableDescription.KeySchema!.reduce((prev, current, index) => {
         return {
             ...prev,
-            ...current.AttributeName ? { [current.AttributeName]: typecastKey(current.AttributeName, splitKeys[index], tableDescription) } : {},
+            ...current.AttributeName
+                ? {
+                    [current.AttributeName]: typecastKey(
+                        current.AttributeName,
+                        splitKeys[index],
+                        tableDescription,
+                    ),
+                }
+                : {},
         };
     }, {});
 }
@@ -63,7 +90,10 @@ export async function doSearch(
     tableName: string,
     scanParams: ScanParams,
     limit?: number,
-    progress?: (items: ItemList | undefined, lastStartKey: Key | undefined) => boolean,
+    progress?: (
+        items: ItemList | undefined,
+        lastStartKey: Key | undefined
+    ) => boolean,
     readOperation: 'query' | 'scan' = 'scan',
 ): Promise<ItemList> {
     const params: ScanCommandInput | QueryCommandInput = {
@@ -74,7 +104,10 @@ export async function doSearch(
 
     let items: ItemList = [];
 
-    const getNextBite = async(params: ScanCommandInput | QueryCommandInput, nextKey: Key | undefined = undefined): Promise<ItemList> => {
+    const getNextBite = async(
+        params: ScanCommandInput | QueryCommandInput,
+        nextKey: Key | undefined = undefined,
+    ): Promise<ItemList> => {
         if (nextKey) {
             params.ExclusiveStartKey = nextKey;
         }
@@ -107,8 +140,14 @@ export async function doSearch(
     return await getNextBite(params);
 }
 
-function typecastKey(keyName: string, keyValue: string, table: TableDescription): string | number {
-    const definition = table.AttributeDefinitions!.find(attribute => attribute.AttributeName === keyName);
+function typecastKey(
+    keyName: string,
+    keyValue: string,
+    table: TableDescription,
+): string | number {
+    const definition = table.AttributeDefinitions!.find(
+        (attribute) => attribute.AttributeName === keyName,
+    );
     if (definition) {
         switch (definition.AttributeType) {
             case 'N':
@@ -120,6 +159,11 @@ function typecastKey(keyName: string, keyValue: string, table: TableDescription)
     return keyValue;
 }
 
-export function isAttributeNotAlreadyCreated(attributeDefinitions: AttributeDefinition[], attributeName: string): boolean {
-    return !attributeDefinitions.find(attributeDefinition => attributeDefinition.AttributeName === attributeName);
+export function isAttributeNotAlreadyCreated(
+    attributeDefinitions: AttributeDefinition[],
+    attributeName: string,
+): boolean {
+    return !attributeDefinitions.find(
+        (attributeDefinition) => attributeDefinition.AttributeName === attributeName,
+    );
 }
