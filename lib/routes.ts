@@ -652,6 +652,49 @@ export function setupRoutes(app: Express, ddbApi: DynamoApiController): void {
       }),
   );
 
+  // Logs routes
+  app.get('/logs', (_req, res) => {
+      res.render('logs', {});
+  });
+
+  app.get(
+      '/api/logs',
+      asyncMiddleware(async(req, res) => {
+          const { dbLogger } = await import('./logger');
+          const limit = parseInt(req.query.limit as string) || 100;
+          const offset = parseInt(req.query.offset as string) || 0;
+          const operation = req.query.operation as string;
+          const tableName = req.query.tableName as string;
+
+          let logs;
+          if (operation) {
+              logs = dbLogger.getLogsByOperation(operation as any, limit);
+          } else if (tableName) {
+              logs = dbLogger.getLogsByTable(tableName, limit);
+          } else {
+              logs = dbLogger.getLogs(limit, offset);
+          }
+
+          const totalCount = dbLogger.getLogsCount();
+
+          res.json({
+              logs,
+              totalCount,
+              limit,
+              offset,
+          });
+      }),
+  );
+
+  app.post(
+      '/api/logs/clear',
+      asyncMiddleware(async(_req, res) => {
+          const { dbLogger } = await import('./logger');
+          dbLogger.clearLogs();
+          res.json({ message: 'Logs cleared successfully' });
+      }),
+  );
+
   app.use(((error, _req, res, _next) => {
       console.info(error.stack);
       res.status(500).json({ message: error.message });

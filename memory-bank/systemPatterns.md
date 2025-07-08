@@ -76,6 +76,15 @@ DELETE /tables/:name/items/:key    - Delete item
 - `listAllTables.ts`: Manages table listing
 - `purgeTable.ts`: Implements table data cleanup
 
+### 5. Logging System (`lib/logger.ts`, `lib/loggedDynamoDbApi.ts`)
+
+**Pattern**: Decorator Pattern + Observer Pattern
+
+- **Logger Class**: Centralized logging with file persistence and in-memory storage
+- **Logged API Controller**: Decorates DynamoDB operations with logging functionality
+- **Event-driven Logging**: Automatic operation tracking without code changes
+- **Persistent Storage**: File-based logging with automatic rotation
+
 ## Key Technical Patterns
 
 ### 1. Async/Await Error Handling
@@ -145,6 +154,12 @@ HTTP Request → Route Handler → Key Parsing → DynamoDB Operation → Respon
 
 ```
 Filter Parameters → Expression Building → Scan/Query → Pagination → Template Rendering
+```
+
+### 4. Logging Flow
+
+```
+DynamoDB Operation → Logged API Controller → Logger Class → File Storage + Memory Cache → Logs UI
 ```
 
 ## Security Patterns
