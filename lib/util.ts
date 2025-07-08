@@ -21,8 +21,8 @@ export class DynamoDBAdminError extends Error {
 }
 
 export type ScanParams = Omit<
-  ScanCommandInput & QueryInput,
-  'TableName' | 'Limit'
+    ScanCommandInput & QueryInput,
+    'TableName' | 'Limit'
 >;
 
 export function extractKey(
