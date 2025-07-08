@@ -1,4 +1,33 @@
-<ol class="breadcrumb">
+<!-- Main Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" style="padding-left: 0; padding-right: 0;">
+  <div class="container-fluid" style="max-width: none; padding-left: 1rem; padding-right: 1rem;">
+    <a class="navbar-brand" href="/">DynamoDB Admin</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link<%= breadcrumb.some(item => item.text === 'Tables' && item.active) ? ' active' : '' %>" href="/">Tables</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link<%= breadcrumb.some(item => item.text === 'Database Logs' && item.active) ? ' active' : '' %>" href="/logs">Logs</a>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center">
+        <span class="me-2">Dark Theme</span>
+        <% let checked = theme.toString() === "dark" ? "checked" : "" %>
+        <input id="dark-theme-toggle" type="checkbox" <%= checked %> data-toggle="toggle" data-onstyle="dark" data-size="xs">
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Breadcrumb -->
+<ol class="breadcrumb" style="margin-left: 1rem; margin-right: 1rem; border-radius: 0;">
   <% for (const item of breadcrumb) { %>
   <a class="breadcrumb-item<%= item.active ? ' active' : '' %>" <%- item.href ? `href="${item.href}"`: '' %>><%= item.text %>
     <% if (item.badge) { %>
@@ -6,11 +35,6 @@
     <% } %>
   </a>
   <% } %>
-  <div class="flex-fill"></div>
-  <div>
-    Dark Theme <% let checked = theme.toString() === "dark" ? "checked" : "" %>
-    <input id="dark-theme-toggle" type="checkbox" <%= checked %> data-toggle="toggle" data-onstyle="dark" data-size="xs">
-  </div>
 </ol>
 
 <script>

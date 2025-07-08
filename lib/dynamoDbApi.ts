@@ -1,14 +1,14 @@
 import {
     CreateTableCommand,
-    DeleteTableCommand,
-    DescribeTableCommand,
-    ListTablesCommand,
     type CreateTableInput,
     type CreateTableOutput,
+    DeleteTableCommand,
     type DeleteTableInput,
     type DeleteTableOutput,
+    DescribeTableCommand,
     type DescribeTableInput,
     type DynamoDBClient,
+    ListTablesCommand,
     type ListTablesInput,
     type ListTablesOutput,
     type TableDescription,
@@ -45,7 +45,9 @@ export class DynamoApiController {
         this.docClient = DynamoDBDocumentClient.from(dynamodb);
     }
 
-    async batchWriteItem(input: BatchWriteCommandInput): Promise<BatchWriteCommandOutput> {
+    async batchWriteItem(
+        input: BatchWriteCommandInput,
+    ): Promise<BatchWriteCommandOutput> {
         return await this.dynamodb.send(new BatchWriteCommand(input));
     }
 
@@ -62,7 +64,9 @@ export class DynamoApiController {
     }
 
     async describeTable(input: DescribeTableInput): Promise<TableDescription> {
-        const description = await this.dynamodb.send(new DescribeTableCommand(input));
+        const description = await this.dynamodb.send(
+            new DescribeTableCommand(input),
+        );
         if (!description.Table) {
             throw new DynamoDBAdminError(`No table named ${input.TableName}`);
         }

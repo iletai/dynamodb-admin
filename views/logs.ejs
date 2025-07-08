@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="<%= theme %>">
+  <head>
+    <%- include('partials/head') %> <%- include('partials/bootstrap-deps') %>
+    <%- include('partials/head-tail') %>
+  </head>
+
+  <body class="container-fluid">
+    <header>
+      <% const breadcrumb = [ { href: '/', text: 'Tables', }, { active: true,
+      text: 'Database Logs', }, ] %> <%- include('partials/breadcrumb', {
+      breadcrumb }) %> <%- include('partials/error-container') %>
+    </header>
+
+    <main>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Database Operation Logs</h2>
+        <div>
+          <button id="refreshLogs" class="btn btn-primary btn-sm">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+          <button
+            id="clearLogs"
+            class="btn btn-danger btn-sm"
+            onclick="clearLogs()"
+          >
+            <i class="fas fa-trash"></i> Clear Logs
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Filters</h5>
+          <div class="row">
+            <div class="col-md-4">
+              <label for="operationFilter" class="form-label"
+                >Operation Type</label
+              >
+              <select id="operationFilter" class="form-select">
+                <option value="">All Operations</option>
+                <option value="scan">Scan</option>
+                <option value="query">Query</option>
+                <option value="getItem">Get Item</option>
+                <option value="putItem">Put Item</option>
+                <option value="deleteItem">Delete Item</option>
+                <option value="createTable">Create Table</option>
+                <option value="deleteTable">Delete Table</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="tableFilter" class="form-label">Table Name</label>
+              <input
+                type="text"
+                id="tableFilter"
+                class="form-control"
+                placeholder="Filter by table name"
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="limitFilter" class="form-label">Show Records</label>
+              <select id="limitFilter" class="form-select">
+                <option value="50">50</option>
+                <option value="100" selected>100</option>
+                <option value="200">200</option>
+                <option value="500">500</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistics -->
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Statistics</h5>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="text-center">
+                <h3 id="totalLogs" class="text-primary">0</h3>
+                <small class="text-muted">Total Logs</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-center">
+                <h3 id="avgExecutionTime" class="text-info">0ms</h3>
+                <small class="text-muted">Avg Execution Time</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-center">
+                <h3 id="errorCount" class="text-danger">0</h3>
+                <small class="text-muted">Errors</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-center">
+                <h3 id="successCount" class="text-success">0</h3>
+                <small class="text-muted">Successful Operations</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logs Table -->
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Operation</th>
+                  <th>Table</th>
+                  <th>Count</th>
+                  <th>Execution Time</th>
+                  <th>Status</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody id="logsTableBody">
+                <tr>
+                  <td colspan="7" class="text-center">
+                    <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Log Details Modal -->
+      <div class="modal fade" id="logDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Log Details</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <pre id="logDetailsContent" class="bg-light p-3 rounded"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let currentLogs = [];
+
+      // Load logs on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        loadLogs();
+
+        // Set up auto-refresh every 30 seconds
+        setInterval(loadLogs, 30000);
+
+        // Set up filter event listeners
+        document
+          .getElementById("operationFilter")
+          .addEventListener("change", loadLogs);
+        document
+          .getElementById("tableFilter")
+          .addEventListener("input", debounce(loadLogs, 500));
+        document
+          .getElementById("limitFilter")
+          .addEventListener("change", loadLogs);
+        document
+          .getElementById("refreshLogs")
+          .addEventListener("click", loadLogs);
+      });
+
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      async function loadLogs() {
+        const operation = document.getElementById("operationFilter").value;
+        const tableName = document.getElementById("tableFilter").value;
+        const limit = document.getElementById("limitFilter").value;
+
+        const params = new URLSearchParams();
+        if (operation) params.append("operation", operation);
+        if (tableName) params.append("tableName", tableName);
+        if (limit) params.append("limit", limit);
+
+        try {
+          const response = await fetch(`/api/logs?${params}`);
+          const data = await response.json();
+
+          currentLogs = data.logs;
+          updateStatistics(data.logs, data.totalCount);
+          renderLogsTable(data.logs);
+        } catch (error) {
+          console.error("Error loading logs:", error);
+          showError("Failed to load logs");
+        }
+      }
+
+      function updateStatistics(logs, totalCount) {
+        document.getElementById("totalLogs").textContent =
+          totalCount.toLocaleString();
+
+        const errorCount = logs.filter((log) => log.error).length;
+        const successCount = logs.length - errorCount;
+
+        document.getElementById("errorCount").textContent =
+          errorCount.toLocaleString();
+        document.getElementById("successCount").textContent =
+          successCount.toLocaleString();
+
+        const avgTime =
+          logs.length > 0
+            ? Math.round(
+                logs.reduce((sum, log) => sum + (log.executionTime || 0), 0) /
+                  logs.length
+              )
+            : 0;
+        document.getElementById(
+          "avgExecutionTime"
+        ).textContent = `${avgTime}ms`;
+      }
+
+      function renderLogsTable(logs) {
+        const tbody = document.getElementById("logsTableBody");
+
+        if (logs.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="7" class="text-center text-muted">No logs found</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = logs
+          .map(
+            (log, index) => `
+        <tr>
+          <td>${formatTimestamp(log.timestamp)}</td>
+          <td>
+            <span class="badge bg-${getOperationBadgeColor(log.operation)}">
+              ${log.operation}
+            </span>
+          </td>
+          <td>${log.tableName}</td>
+          <td>${
+            log.responseCount !== undefined
+              ? log.responseCount.toLocaleString()
+              : "-"
+          }</td>
+          <td>${log.executionTime ? `${log.executionTime}ms` : "-"}</td>
+          <td>
+            ${
+              log.error
+                ? '<span class="badge bg-danger">Error</span>'
+                : '<span class="badge bg-success">Success</span>'
+            }
+          </td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary" onclick="showLogDetails(${index})">
+              View
+            </button>
+          </td>
+        </tr>
+      `
+          )
+          .join("");
+      }
+
+      function getOperationBadgeColor(operation) {
+        const colors = {
+          scan: "primary",
+          query: "info",
+          getItem: "secondary",
+          putItem: "success",
+          deleteItem: "danger",
+          createTable: "warning",
+          deleteTable: "dark",
+        };
+        return colors[operation] || "secondary";
+      }
+
+      function formatTimestamp(timestamp) {
+        return new Date(timestamp).toLocaleString();
+      }
+
+      function showLogDetails(index) {
+        const log = currentLogs[index];
+        const content = JSON.stringify(log, null, 2);
+        document.getElementById("logDetailsContent").textContent = content;
+
+        const modal = new bootstrap.Modal(
+          document.getElementById("logDetailsModal")
+        );
+        modal.show();
+      }
+
+      async function clearLogs() {
+        if (
+          !confirm(
+            "Are you sure you want to clear all logs? This action cannot be undone."
+          )
+        ) {
+          return;
+        }
+
+        try {
+          const response = await fetch("/api/logs/clear", { method: "POST" });
+          const data = await response.json();
+
+          if (response.ok) {
+            showSuccess("Logs cleared successfully");
+            loadLogs();
+          } else {
+            showError("Failed to clear logs");
+          }
+        } catch (error) {
+          console.error("Error clearing logs:", error);
+          showError("Failed to clear logs");
+        }
+      }
+
+      function showError(message) {
+        // Simple error display - could be enhanced with a proper notification system
+        alert("Error: " + message);
+      }
+
+      function showSuccess(message) {
+        // Simple success display - could be enhanced with a proper notification system
+        alert("Success: " + message);
+      }
+    </script>
+  </body>
+</html>

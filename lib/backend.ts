@@ -1,9 +1,9 @@
 import path from 'node:path';
-import express, { type Express } from 'express';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import express, { type Express } from 'express';
 import { createAwsConfig } from './config';
+import { LoggedDynamoApiController } from './loggedDynamoDbApi';
 import { setupRoutes } from './routes';
-import { DynamoApiController } from './dynamoDbApi';
 
 export type CreateServerOptions = {
     dynamoDbClient?: DynamoDBClient;
@@ -13,7 +13,12 @@ export type CreateServerOptions = {
 };
 
 export function createServer(options?: CreateServerOptions): Express {
-    const { dynamoDbClient, expressInstance, dynamoEndpoint, skipDefaultCredentials } = options || {};
+    const {
+        dynamoDbClient,
+        expressInstance,
+        dynamoEndpoint,
+        skipDefaultCredentials,
+    } = options || {};
     const app = expressInstance || express();
     let dynamodb = dynamoDbClient;
 
@@ -22,10 +27,12 @@ export function createServer(options?: CreateServerOptions): Express {
     app.set('views', path.resolve(__dirname, '..', 'views'));
 
     if (!dynamodb) {
-        dynamodb = new DynamoDBClient(createAwsConfig({ dynamoEndpoint, skipDefaultCredentials }));
+        dynamodb = new DynamoDBClient(
+            createAwsConfig({ dynamoEndpoint, skipDefaultCredentials }),
+        );
     }
 
-    const ddbApi = new DynamoApiController(dynamodb);
+    const ddbApi = new LoggedDynamoApiController(dynamodb);
 
     setupRoutes(app, ddbApi);
 

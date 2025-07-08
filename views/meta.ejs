@@ -1,100 +1,117 @@
 <!DOCTYPE html>
-<html lang='en' data-theme="<%= theme %>">
-<head>
-  <%- include('partials/head') %>
-  <%- include('partials/ace-deps') %>
-  <%- include('partials/bootstrap-deps') %>
-  <%- include('partials/head-tail') %>
-</head>
-<body class='container-fluid d-flex flex-column'>
-  <header>
-    <%
-      const breadcrumb = [
-        {
-          href: '/',
-          text: 'Tables',
-        },
-        {
-          active: true,
-          text: Table.TableName,
-          badge: Table.ItemCount
-        },
-      ]
-    %>
-    <%- include('partials/breadcrumb', { breadcrumb }) %>
+<html lang="en" data-theme="<%= theme %>">
+  <head>
+    <%- include('partials/head') %> <%- include('partials/ace-deps') %> <%-
+    include('partials/bootstrap-deps') %> <%- include('partials/head-tail') %>
+  </head>
+  <body class="container-fluid d-flex flex-column">
+    <header>
+      <% const breadcrumb = [ { href: '/', text: 'Tables', }, { active: true,
+      text: Table.TableName, badge: Table.ItemCount }, ] %> <%-
+      include('partials/breadcrumb', { breadcrumb }) %>
 
-    <ul class='nav nav-tabs'>
-      <li class='nav-item'>
-        <a class='nav-link' href='/tables/<%= encodeURIComponent(Table.TableName) %>'>
-          Items
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/tables/<%= encodeURIComponent(Table.TableName) %>/get">
-          Get
-        </a>
-      </li>
-      <li class='nav-item'>
-        <a class='nav-link active' href='/tables/<%= encodeURIComponent(Table.TableName) %>/meta'>Meta</a>
-      </li>
-    </ul>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/tables/<%= encodeURIComponent(Table.TableName) %>"
+          >
+            Items
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/tables/<%= encodeURIComponent(Table.TableName) %>/get"
+          >
+            Get
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            href="/tables/<%= encodeURIComponent(Table.TableName) %>/meta"
+            >Meta</a
+          >
+        </li>
+      </ul>
 
-    <%- include('partials/error-container') %>
-  </header>
+      <%- include('partials/error-container') %>
+    </header>
 
-  <main class="flex-fill d-flex flex-column">
-    <div style="margin: 16px 0;">
-      <button id="purgeTable" type="button" class="btn btn-warning">Purge table</button>
-      <button id="deleteTable" type="button" class="btn btn-danger">Delete table</button>
-    </div>
-    <div
-        id="documentWrapper"
-        class="flex-fill"
-        style="position: relative;">
-      <div id="documentArea" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;"><%= JSON.stringify(Table, null, 2) %></div>
-    </div>
-  </main>
-  <script>
-      document.querySelector('#purgeTable').addEventListener('click', () => {
-          if (!confirm(`Are you sure you want to purge all records from table "<%= Table.TableName %>"?`)) {
-            return
-          }
-          fetch('/tables/<%= encodeURIComponent(Table.TableName) %>/all', {
-              method: 'delete'
-          }).then(async (response) => {
-              if (!response.ok) {
-                  const responseText = await response.text()
-                  throw new Error(JSON.parse(responseText).message)
-              }
-              window.location.href = '/tables/<%= encodeURIComponent(Table.TableName) %>'
-          }).catch((error) => {
-              handleError(error.message)
+    <main class="flex-fill d-flex flex-column">
+      <div style="margin: 16px 0">
+        <button id="purgeTable" type="button" class="btn btn-warning">
+          Purge table
+        </button>
+        <button id="deleteTable" type="button" class="btn btn-danger">
+          Delete table
+        </button>
+      </div>
+      <div id="documentWrapper" class="flex-fill" style="position: relative">
+        <div
+          id="documentArea"
+          style="position: absolute; top: 0; right: 0; bottom: 0; left: 0"
+        >
+          <%= JSON.stringify(Table, null, 2) %>
+        </div>
+      </div>
+    </main>
+    <script>
+      document.querySelector("#purgeTable").addEventListener("click", () => {
+        if (
+          !confirm(
+            `Are you sure you want to purge all records from table "<%= Table.TableName %>"?`
+          )
+        ) {
+          return;
+        }
+        fetch("/tables/<%= encodeURIComponent(Table.TableName) %>/all", {
+          method: "delete",
+        })
+          .then(async (response) => {
+            if (!response.ok) {
+              const responseText = await response.text();
+              throw new Error(JSON.parse(responseText).message);
+            }
+            window.location.href =
+              "/tables/<%= encodeURIComponent(Table.TableName) %>";
           })
+          .catch((error) => {
+            handleError(error.message);
+          });
       });
 
-      document.querySelector('#deleteTable').addEventListener('click', () => {
-          if (!confirm(`Are you sure you want to delete table "<%= Table.TableName %>"?`)) {
-            return
-          }
-          fetch('/tables/<%= encodeURIComponent(Table.TableName) %>', {
-              method: 'delete'
-          }).then(async (response) => {
-              if (!response.ok) {
-                  const responseText = await response.text()
-                  throw new Error(JSON.parse(responseText).message)
-              }
-              window.location.href = '/'
-          }).catch((error) => {
-              handleError(error.message)
+      document.querySelector("#deleteTable").addEventListener("click", () => {
+        if (
+          !confirm(
+            `Are you sure you want to delete table "<%= Table.TableName %>"?`
+          )
+        ) {
+          return;
+        }
+        fetch("/tables/<%= encodeURIComponent(Table.TableName) %>", {
+          method: "delete",
+        })
+          .then(async (response) => {
+            if (!response.ok) {
+              const responseText = await response.text();
+              throw new Error(JSON.parse(responseText).message);
+            }
+            window.location.href = "/";
           })
+          .catch((error) => {
+            handleError(error.message);
+          });
       });
 
-      const documentWrapper = document.getElementById('documentWrapper')
-      function setTextareaHeight (){
-          documentWrapper.style.height = `${window.innerHeight - documentWrapper.offsetTop}px`
+      const documentWrapper = document.getElementById("documentWrapper");
+      function setTextareaHeight() {
+        documentWrapper.style.height = `${
+          window.innerHeight - documentWrapper.offsetTop
+        }px`;
       }
-      setTextareaHeight()
-
+      setTextareaHeight();
 
       const editor = ace.edit("documentArea");
       editor.resize();
@@ -103,5 +120,5 @@
       editor.setReadOnly(true);
       editor.setFontSize(14);
     </script>
-</body>
+  </body>
 </html>
