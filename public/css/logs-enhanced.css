@@ -1,0 +1,45 @@
+/* Styles for the enhanced logs page */
+
+.filter-section .card-header {
+  background-color: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.quick-filters-container {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] .quick-filters-container {
+  background-color: var(--bg-color-1, rgb(26, 29, 30));
+  border-color: var(--border-color-1, #282929);
+}
+
+[data-theme="dark"] .filter-section {
+  background-color: var(--bg-color-strongest, rgb(14, 16, 17));
+  border: 1px solid var(--border-color-1, #282929);
+}
+
+[data-theme="dark"] .filter-section .card-header {
+  border-bottom-color: var(--border-color-1, #282929);
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: var(--bg-color, #0f1112);
+  color: var(--font-color, #f2f0ee);
+  border-color: var(--border-color-1, #282929) !important;
+}
+
+[data-theme="dark"] .input-group-text {
+  background-color: var(--bg-color-1, rgb(26, 29, 30));
+  border-color: var(--border-color-1, #282929);
+}
+
+[data-theme="dark"] .stats-card,
+[data-theme="dark"] .logs-table-card {
+  background-color: var(--bg-color-strongest, rgb(14, 16, 17));
+  border: 1px solid var(--border-color-1, #282929);
+}
