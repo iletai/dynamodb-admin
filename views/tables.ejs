@@ -1,171 +1,201 @@
 <!DOCTYPE html>
-<html lang='en' data-theme="<%= theme %>">
+<html lang="en" data-theme="<%= theme %>">
+  <head>
+    <%- include('partials/head') %> <%- include('partials/bootstrap-deps') %>
+    <%- include('partials/head-tail') %>
+  </head>
 
-<head>
-  <%- include('partials/head') %>
-  <%- include('partials/bootstrap-deps') %>
-  <%- include('partials/head-tail') %>
-</head>
+  <body class="container-fluid">
+    <header>
+      <% const breadcrumb = [ { active: true, href: '/', text: 'Tables', }, ] %>
+      <%- include('partials/breadcrumb', { breadcrumb }) %> <%-
+      include('partials/error-container') %>
+    </header>
+    <main>
+      <script>
+        $(document).ready(() => {
+          $("#filter-input")
+            .on("input", (event) => {
+              const query = event.target.value.trim().toLowerCase();
+              const words = query
+                .split(" ")
+                .map((word) => word.trim())
+                .filter((word) => word);
+              $("#table-list .list-group-item")
+                .show()
+                .each((index, element) => {
+                  const lowerTableName =
+                    element.dataset.tableName.toLowerCase();
+                  for (const word of words) {
+                    if (!lowerTableName.includes(word)) {
+                      $(element).hide();
+                      return;
+                    }
+                  }
+                  $(element).show();
+                });
+              window.history.replaceState(
+                {},
+                undefined,
+                getUrlWithState({ filter: query })
+              );
+            })
+            .trigger("input");
+        });
 
-<body class='container'>
-  <header>
-    <%
-      const breadcrumb = [
-        {
-          active: true,
-          href: '/',
-          text: 'Tables',
-        },
-      ]
-    %>
-    <%- include('partials/breadcrumb', { breadcrumb }) %>
-    <%- include('partials/error-container') %>
-  </header>
-  <main>
-    <script>
-    $(document).ready(() => {
-      $('#filter-input')
-        .on('input', event => {
-          const query = event.target.value.trim().toLowerCase()
-          const words = query.split(' ').map(word => word.trim()).filter(word => word)
-          $('#table-list .list-group-item').show().each((index, element) => {
-            const lowerTableName = element.dataset.tableName.toLowerCase()
-            for (const word of words) {
-              if (!lowerTableName.includes(word)) {
-                $(element).hide()
-                return
-              }
-            }
-            $(element).show()
+        function getUrlWithState({ filter }) {
+          const url = new URL(location.href);
+          if (filter) {
+            url.searchParams.set("filter", filter);
+          } else {
+            url.searchParams.delete("filter");
+          }
+          return url.toString();
+        }
+
+        function deleteTable(TableName) {
+          if (
+            !confirm(`Are you sure you want to delete table "${TableName}"?`)
+          ) {
+            return;
+          }
+
+          fetch(`/tables/${encodeURIComponent(TableName)}`, {
+            method: "delete",
           })
-          window.history.replaceState({}, undefined, getUrlWithState({ filter: query }))
-        })
-        .trigger('input')
-    })
-
-    function getUrlWithState({ filter }) {
-      const url = new URL(location.href);
-      if (filter) {
-        url.searchParams.set('filter', filter)
-      } else {
-        url.searchParams.delete('filter')
-      }
-      return url.toString()
-    }
-
-    function deleteTable(TableName) {
-      if (!confirm(`Are you sure you want to delete table "${TableName}"?`)) {
-        return
-      }
-
-      fetch(`/tables/${encodeURIComponent(TableName)}`, {
-        method: 'delete'
-      })
-        .then(async (response) => {
-          if (!response.ok) {
-            const responseText = await response.text()
-            throw new Error(JSON.parse(responseText).message)
-          }
-          location.reload()
-        })
-        .catch((err) => {
-          handleError(error.message)
-        })
-    }
-
-    function purgeTable(TableName) {
-      if (!confirm(`Are you sure you want to purge all records from table "${TableName}"?`)) {
-        return
-      }
-
-      fetch(`/tables/${encodeURIComponent(TableName)}/all`, {
-        method: 'delete'
-      }).then(async (response) => {
-        if (!response.ok) {
-          const responseText = await response.text()
-          throw new Error(JSON.parse(responseText).message)
+            .then(async (response) => {
+              if (!response.ok) {
+                const responseText = await response.text();
+                throw new Error(JSON.parse(responseText).message);
+              }
+              location.reload();
+            })
+            .catch((err) => {
+              handleError(error.message);
+            });
         }
-        location.reload()
-      }).catch((error) => {
-        handleError(error.message)
-      })
-    }
 
-      function purgeAllTables () {
-        if (!confirm('Are you sure you want to purge all tables?')) {
-          return
-        }
-        fetch('/tables-purge', {
-          method: 'delete'
-        }).then(async (response) => {
-          const responseText = await response.text()
-          if (!response.ok) {
-            throw new Error(JSON.parse(responseText).message)
+        function purgeTable(TableName) {
+          if (
+            !confirm(
+              `Are you sure you want to purge all records from table "${TableName}"?`
+            )
+          ) {
+            return;
           }
-          window.alert(responseText)
-          location.reload()
-        }).catch((error) => {
-          handleError(error.message)
-        })
-      }
 
-      function deleteAllTables () {
-        if (!confirm('Are you sure you want to delete all tables?')) {
-          return
+          fetch(`/tables/${encodeURIComponent(TableName)}/all`, {
+            method: "delete",
+          })
+            .then(async (response) => {
+              if (!response.ok) {
+                const responseText = await response.text();
+                throw new Error(JSON.parse(responseText).message);
+              }
+              location.reload();
+            })
+            .catch((error) => {
+              handleError(error.message);
+            });
         }
-        fetch('/tables', {
-          method: 'delete'
-        }).then(async (response) => {
-          const responseText = await response.text()
-          if (!response.ok) {
-            throw new Error(JSON.parse(responseText).message)
+
+        function purgeAllTables() {
+          if (!confirm("Are you sure you want to purge all tables?")) {
+            return;
           }
-          window.alert(responseText)
-          location.reload()
-        }).catch((error) => {
-          handleError(error.message)
-        })
-      }
+          fetch("/tables-purge", {
+            method: "delete",
+          })
+            .then(async (response) => {
+              const responseText = await response.text();
+              if (!response.ok) {
+                throw new Error(JSON.parse(responseText).message);
+              }
+              window.alert(responseText);
+              location.reload();
+            })
+            .catch((error) => {
+              handleError(error.message);
+            });
+        }
 
-    </script>
+        function deleteAllTables() {
+          if (!confirm("Are you sure you want to delete all tables?")) {
+            return;
+          }
+          fetch("/tables", {
+            method: "delete",
+          })
+            .then(async (response) => {
+              const responseText = await response.text();
+              if (!response.ok) {
+                throw new Error(JSON.parse(responseText).message);
+              }
+              window.alert(responseText);
+              location.reload();
+            })
+            .catch((error) => {
+              handleError(error.message);
+            });
+        }
+      </script>
 
-    <div class="form-group">
-      <input type="search" class="form-control mb-3" id="filter-input" placeholder="Filter tables">
-    </div>
+      <div class="form-group">
+        <input
+          type="search"
+          class="form-control mb-3"
+          id="filter-input"
+          placeholder="Filter tables"
+        />
+      </div>
 
-    <ul class="list-group" id="table-list">
-      <% for(var i = 0; i < data.length; i++) { %>
+      <ul class="list-group" id="table-list">
+        <% for(var i = 0; i < data.length; i++) { %>
         <li class="list-group-item" data-table-name="<%= data[i].TableName %>">
-          <a href='/tables/<%= encodeURIComponent(data[i].TableName) %>'>
+          <a href="/tables/<%= encodeURIComponent(data[i].TableName) %>">
             <%= data[i].TableName %>
           </a>
-          <a href="#" onClick="deleteTable('<%= data[i].TableName %>'); return false"
-              class="badge badge-danger badge-pill float-right ml-1">
+          <a
+            href="#"
+            onClick="deleteTable('<%= data[i].TableName %>'); return false"
+            class="badge badge-danger badge-pill float-right ml-1"
+          >
             Delete
           </a>
-          <a href="/" onClick="purgeTable('<%= data[i].TableName %>'); return false"
-             class="badge badge-warning badge-pill float-right ml-1">
+          <a
+            href="/"
+            onClick="purgeTable('<%= data[i].TableName %>'); return false"
+            class="badge badge-warning badge-pill float-right ml-1"
+          >
             Purge
           </a>
           <span class="badge badge-secondary badge-pill float-right ml-1">
             <%= data[i].ItemCount %>
           </span>
         </li>
-      <% } %>
-    </ul>
-    <div style="margin-top: 12px; display: flex; justify-content: space-between;">
-      <a href='/create-table' class="btn btn-primary">
-        Create table
-      </a>
-      <div>
-        <a href='#' class="btn btn-warning" onclick="purgeAllTables(); return false;">
-          Purge all tables
-        </a>
-        <a href='#' class="btn btn-danger" onclick="deleteAllTables(); return false;">
-          Delete all tables
-        </a>
+        <% } %>
+      </ul>
+      <div
+        style="margin-top: 12px; display: flex; justify-content: space-between"
+      >
+        <a href="/create-table" class="btn btn-primary"> Create table </a>
+        <div>
+          <a
+            href="#"
+            class="btn btn-warning"
+            onclick="purgeAllTables(); return false;"
+          >
+            Purge all tables
+          </a>
+          <a
+            href="#"
+            class="btn btn-danger"
+            onclick="deleteAllTables(); return false;"
+          >
+            Delete all tables
+          </a>
+        </div>
       </div>
-    </div>
-  </main>
-</body>
+    </main>
+  </body>
 </html>
