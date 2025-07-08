@@ -2,6 +2,7 @@
 <html lang="en" data-theme="<%= theme %>">
   <head>
     <%- include('partials/head') %> <%- include('partials/bootstrap-deps') %>
+    <link rel="stylesheet" href="/css/logs-enhanced.css" />
     <%- include('partials/head-tail') %>
   </head>
 
@@ -29,50 +30,174 @@
         </div>
       </div>
 
-      <!-- Filters -->
-      <div class="card mb-3">
+      <!-- Enhanced Filters Section -->
+      <div class="card mb-4 p-4 filter-section">
+        <div
+          class="card-header filter-header d-flex justify-content-between align-items-center"
+        >
+          <div class="d-flex align-items-center">
+            <i class="fas fa-filter text-primary me-3 fs-5"></i>
+            <h5 class="card-title mb-0 fw-bold filter-title">
+              Filters & Search
+            </h5>
+          </div>
+          <button
+            id="clearFilters"
+            class="btn btn-outline-secondary btn-sm clear-filters-btn"
+            onclick="clearAllFilters()"
+            title="Clear all filters"
+          >
+            <i class="fas fa-times me-1"></i>
+            Clear
+          </button>
+        </div>
         <div class="card-body">
-          <h5 class="card-title">Filters</h5>
-          <div class="row">
-            <div class="col-md-4">
-              <label for="operationFilter" class="form-label"
-                >Operation Type</label
+          <div class="row g-4">
+            <!-- Operation Type Filter -->
+            <div class="col-lg-3 col-md-6">
+              <div class="filter-group">
+                <label
+                  for="operationFilter"
+                  class="form-label d-flex align-items-center mb-2"
+                >
+                  <i class="fas fa-cogs text-info me-2"></i>
+                  <span class="fw-semibold">Operation Type</span>
+                </label>
+                <select
+                  id="operationFilter"
+                  class="form-select form-select-sm shadow-sm border-0"
+                >
+                  <option value="">🔍 All Operations</option>
+                  <option value="scan">📊 Scan</option>
+                  <option value="query">🔎 Query</option>
+                  <option value="getItem">📄 Get Item</option>
+                  <option value="putItem">➕ Put Item</option>
+                  <option value="deleteItem">🗑️ Delete Item</option>
+                  <option value="createTable">🏗️ Create Table</option>
+                  <option value="deleteTable">💥 Delete Table</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Table Name Filter -->
+            <div class="col-lg-3 col-md-6">
+              <div class="filter-group">
+                <label
+                  for="tableFilter"
+                  class="form-label d-flex align-items-center mb-2"
+                >
+                  <i class="fas fa-table text-success me-2"></i>
+                  <span class="fw-semibold">Table Name</span>
+                </label>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text border-0 bg-light">
+                    <i class="fas fa-search text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="tableFilter"
+                    class="form-control border-0 shadow-sm"
+                    placeholder="Search tables..."
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Records Limit -->
+            <div class="col-lg-3 col-md-6">
+              <div class="filter-group">
+                <label
+                  for="limitFilter"
+                  class="form-label d-flex align-items-center mb-2"
+                >
+                  <i class="fas fa-list-ol text-warning me-2"></i>
+                  <span class="fw-semibold">Show Records</span>
+                </label>
+                <select
+                  id="limitFilter"
+                  class="form-select form-select-sm shadow-sm border-0"
+                >
+                  <option value="50">50 items</option>
+                  <option value="100" selected>100 items</option>
+                  <option value="200">200 items</option>
+                  <option value="500">500 items</option>
+                  <option value="1000">1000 items</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Date Range Filter -->
+            <div class="col-lg-3 col-md-6">
+              <div class="filter-group">
+                <label class="form-label d-flex align-items-center mb-2">
+                  <i class="fas fa-calendar-alt text-danger me-2"></i>
+                  <span class="fw-semibold">Time Range</span>
+                </label>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <input
+                      type="datetime-local"
+                      id="startDateFilter"
+                      class="form-control form-control-sm border-0 shadow-sm"
+                      title="Start date"
+                    />
+                  </div>
+                  <div class="col-6">
+                    <input
+                      type="datetime-local"
+                      id="endDateFilter"
+                      class="form-control form-control-sm border-0 shadow-sm"
+                      title="End date"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Filter Buttons -->
+          <div class="row mt-4">
+            <div class="col-12">
+              <div
+                class="d-flex flex-wrap gap-2 align-items-center p-3 rounded-3 quick-filters-container"
               >
-              <select id="operationFilter" class="form-select">
-                <option value="">All Operations</option>
-                <option value="scan">Scan</option>
-                <option value="query">Query</option>
-                <option value="getItem">Get Item</option>
-                <option value="putItem">Put Item</option>
-                <option value="deleteItem">Delete Item</option>
-                <option value="createTable">Create Table</option>
-                <option value="deleteTable">Delete Table</option>
-              </select>
-            </div>
-            <div class="col-md-4">
-              <label for="tableFilter" class="form-label">Table Name</label>
-              <input
-                type="text"
-                id="tableFilter"
-                class="form-control"
-                placeholder="Filter by table name"
-              />
-            </div>
-            <div class="col-md-4">
-              <label for="limitFilter" class="form-label">Show Records</label>
-              <select id="limitFilter" class="form-select">
-                <option value="50">50</option>
-                <option value="100" selected>100</option>
-                <option value="200">200</option>
-                <option value="500">500</option>
-              </select>
+                <strong class="me-2">Quick Filters:</strong>
+                <button
+                  class="btn btn-primary btn-sm quick-filter-btn"
+                  onclick="setQuickFilter('error')"
+                >
+                  <i class="fas fa-exclamation-triangle me-1"></i>
+                  Errors Only
+                </button>
+                <button
+                  class="btn btn-success btn-sm quick-filter-btn"
+                  onclick="setQuickFilter('success')"
+                >
+                  <i class="fas fa-check-circle me-1"></i>
+                  Success Only
+                </button>
+                <button
+                  class="btn btn-info btn-sm quick-filter-btn"
+                  onclick="setQuickFilter('slow')"
+                >
+                  <i class="fas fa-clock me-1"></i>
+                  Slow Queries (>1s)
+                </button>
+                <button
+                  class="btn btn-warning btn-sm quick-filter-btn"
+                  onclick="setQuickFilter('recent')"
+                >
+                  <i class="fas fa-history me-1"></i>
+                  Last Hour
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Statistics -->
-      <div class="card mb-3">
+      <div class="card mb-4 p-4 stats-card">
         <div class="card-body">
           <h5 class="card-title">Statistics</h5>
           <div class="row">
@@ -105,7 +230,7 @@
       </div>
 
       <!-- Logs Table -->
-      <div class="card">
+      <div class="card mb-4 p-4 logs-table-card">
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-striped table-hover">
@@ -147,7 +272,7 @@
               ></button>
             </div>
             <div class="modal-body">
-              <pre id="logDetailsContent" class="bg-light p-3 rounded"></pre>
+              <pre id="logDetailsContent" class="bg-light p-4 rounded"></pre>
             </div>
           </div>
         </div>
@@ -344,6 +469,108 @@
         // Simple success display - could be enhanced with a proper notification system
         alert("Success: " + message);
       }
+
+      // New functions for enhanced filters
+      function clearAllFilters() {
+        document.getElementById("operationFilter").value = "";
+        document.getElementById("tableFilter").value = "";
+        document.getElementById("limitFilter").value = "100";
+        document.getElementById("startDateFilter").value = "";
+        document.getElementById("endDateFilter").value = "";
+        loadLogs();
+      }
+
+      function setQuickFilter(filterType) {
+        // Clear existing filters first
+        clearAllFilters();
+
+        const now = new Date();
+
+        switch (filterType) {
+          case "error":
+            // This would need backend support to filter by error status
+            // For now, we'll just reload and let the user see all logs
+            loadLogs();
+            break;
+
+          case "success":
+            // This would need backend support to filter by success status
+            loadLogs();
+            break;
+
+          case "slow":
+            // This would need backend support to filter by execution time > 1000ms
+            loadLogs();
+            break;
+
+          case "recent":
+            // Set start time to 1 hour ago
+            const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+            document.getElementById("startDateFilter").value = oneHourAgo
+              .toISOString()
+              .slice(0, 16);
+            document.getElementById("endDateFilter").value = now
+              .toISOString()
+              .slice(0, 16);
+            loadLogsWithDateRange();
+            break;
+        }
+      }
+
+      async function loadLogsWithDateRange() {
+        const operation = document.getElementById("operationFilter").value;
+        const tableName = document.getElementById("tableFilter").value;
+        const limit = document.getElementById("limitFilter").value;
+        const startDate = document.getElementById("startDateFilter").value;
+        const endDate = document.getElementById("endDateFilter").value;
+
+        const params = new URLSearchParams();
+        if (operation) params.append("operation", operation);
+        if (tableName) params.append("tableName", tableName);
+        if (limit) params.append("limit", limit);
+        if (startDate) params.append("startDate", startDate);
+        if (endDate) params.append("endDate", endDate);
+
+        try {
+          const response = await fetch(`/api/logs?${params}`);
+          const data = await response.json();
+
+          currentLogs = data.logs;
+          updateStatistics(data.logs, data.totalCount);
+          renderLogsTable(data.logs);
+        } catch (error) {
+          console.error("Error loading logs:", error);
+          showError("Failed to load logs");
+        }
+      }
+
+      // Add event listeners for date filters when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Existing event listeners...
+        loadLogs();
+        setInterval(loadLogs, 30000);
+
+        document
+          .getElementById("operationFilter")
+          .addEventListener("change", loadLogs);
+        document
+          .getElementById("tableFilter")
+          .addEventListener("input", debounce(loadLogs, 500));
+        document
+          .getElementById("limitFilter")
+          .addEventListener("change", loadLogs);
+        document
+          .getElementById("refreshLogs")
+          .addEventListener("click", loadLogs);
+
+        // New event listeners for date filters
+        document
+          .getElementById("startDateFilter")
+          .addEventListener("change", loadLogsWithDateRange);
+        document
+          .getElementById("endDateFilter")
+          .addEventListener("change", loadLogsWithDateRange);
+      });
     </script>
   </body>
 </html>
