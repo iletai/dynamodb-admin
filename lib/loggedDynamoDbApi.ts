@@ -17,6 +17,7 @@ import type {
     ScanCommandOutput,
 } from '@aws-sdk/lib-dynamodb';
 import type { Request } from 'express';
+import pickBy from 'lodash.pickby';
 import { DynamoApiController } from './dynamoDbApi';
 import { dbLogger } from './logger';
 
@@ -31,6 +32,16 @@ export class LoggedDynamoApiController extends DynamoApiController {
         };
     }
 
+    private getParametersToLog(input: any): Record<string, unknown> {
+        console.info(
+            'getParametersToLog called with input:',
+            JSON.stringify(input, null, 2),
+        );
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { TableName, ...parameters } = input;
+        return pickBy(parameters, (value) => value !== undefined);
+    }
+
     async scan(
         input: ScanCommandInput,
         req?: Request,
@@ -39,16 +50,15 @@ export class LoggedDynamoApiController extends DynamoApiController {
         try {
             const result = await super.scan(input);
             const executionTime = Date.now() - startTime;
-
+            console.info(
+                'scan result:', this.getParametersToLog(input));
             dbLogger.log({
                 operation: 'scan',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    FilterExpression: input.FilterExpression,
-                    IndexName: input.IndexName,
-                    Limit: input.Limit,
-                },
+                parameters: this.getParametersToLog(input),
                 responseCount: result.Count,
+                scannedCount: result.ScannedCount,
+                sdkResponse: { $metadata: result.$metadata },
                 executionTime,
                 ...this.getRequestInfo(req),
             });
@@ -59,12 +69,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'scan',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    FilterExpression: input.FilterExpression,
-                    IndexName: input.IndexName,
-                    Limit: input.Limit,
-                },
+                parameters: this.getParametersToLog(input),
                 executionTime,
+                sdkResponse:
+                    error instanceof Error && (error as any).$metadata
+                        ? { $metadata: (error as any).$metadata }
+                        : undefined,
                 error: error instanceof Error ? error.message : String(error),
                 ...this.getRequestInfo(req),
             });
@@ -84,13 +94,10 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'query',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    KeyConditionExpression: input.KeyConditionExpression,
-                    FilterExpression: input.FilterExpression,
-                    IndexName: input.IndexName,
-                    Limit: input.Limit,
-                },
+                parameters: this.getParametersToLog(input),
                 responseCount: result.Count,
+                scannedCount: result.ScannedCount,
+                sdkResponse: { $metadata: result.$metadata },
                 executionTime,
                 ...this.getRequestInfo(req),
             });
@@ -101,13 +108,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'query',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    KeyConditionExpression: input.KeyConditionExpression,
-                    FilterExpression: input.FilterExpression,
-                    IndexName: input.IndexName,
-                    Limit: input.Limit,
-                },
+                parameters: this.getParametersToLog(input),
                 executionTime,
+                sdkResponse:
+                    error instanceof Error && (error as any).$metadata
+                        ? { $metadata: (error as any).$metadata }
+                        : undefined,
                 error: error instanceof Error ? error.message : String(error),
                 ...this.getRequestInfo(req),
             });
@@ -127,10 +133,9 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'getItem',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    Key: input.Key,
-                },
+                parameters: this.getParametersToLog(input),
                 responseCount: result.Item ? 1 : 0,
+                sdkResponse: { $metadata: result.$metadata },
                 executionTime,
                 ...this.getRequestInfo(req),
             });
@@ -141,10 +146,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'getItem',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    Key: input.Key,
-                },
+                parameters: this.getParametersToLog(input),
                 executionTime,
+                sdkResponse:
+                    error instanceof Error && (error as any).$metadata
+                        ? { $metadata: (error as any).$metadata }
+                        : undefined,
                 error: error instanceof Error ? error.message : String(error),
                 ...this.getRequestInfo(req),
             });
@@ -164,10 +171,9 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'putItem',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    Item: input.Item,
-                },
+                parameters: this.getParametersToLog(input),
                 responseCount: 1,
+                sdkResponse: { $metadata: result.$metadata },
                 executionTime,
                 ...this.getRequestInfo(req),
             });
@@ -178,10 +184,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'putItem',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    Item: input.Item,
-                },
+                parameters: this.getParametersToLog(input),
                 executionTime,
+                sdkResponse:
+                    error instanceof Error && (error as any).$metadata
+                        ? { $metadata: (error as any).$metadata }
+                        : undefined,
                 error: error instanceof Error ? error.message : String(error),
                 ...this.getRequestInfo(req),
             });
@@ -201,10 +209,9 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'deleteItem',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    Key: input.Key,
-                },
+                parameters: this.getParametersToLog(input),
                 responseCount: 1,
+                sdkResponse: { $metadata: result.$metadata },
                 executionTime,
                 ...this.getRequestInfo(req),
             });
@@ -215,10 +222,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'deleteItem',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    Key: input.Key,
-                },
+                parameters: this.getParametersToLog(input),
                 executionTime,
+                sdkResponse:
+                    error instanceof Error && (error as any).$metadata
+                        ? { $metadata: (error as any).$metadata }
+                        : undefined,
                 error: error instanceof Error ? error.message : String(error),
                 ...this.getRequestInfo(req),
             });
@@ -238,11 +247,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'createTable',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    KeySchema: input.KeySchema,
-                    AttributeDefinitions: input.AttributeDefinitions,
-                },
+                parameters: this.getParametersToLog(input),
                 responseCount: 1,
+                sdkResponse: {
+                    $metadata: undefined,
+                    TableDescription: result.TableDescription,
+                },
                 executionTime,
                 ...this.getRequestInfo(req),
             });
@@ -253,11 +263,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'createTable',
                 tableName: input.TableName || 'unknown',
-                parameters: {
-                    KeySchema: input.KeySchema,
-                    AttributeDefinitions: input.AttributeDefinitions,
-                },
+                parameters: this.getParametersToLog(input),
                 executionTime,
+                sdkResponse:
+                    error instanceof Error && (error as any).$metadata
+                        ? { $metadata: (error as any).$metadata }
+                        : undefined,
                 error: error instanceof Error ? error.message : String(error),
                 ...this.getRequestInfo(req),
             });
@@ -277,8 +288,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'deleteTable',
                 tableName: input.TableName || 'unknown',
-                parameters: {},
+                parameters: this.getParametersToLog(input),
                 responseCount: 1,
+                sdkResponse: {
+                    $metadata: undefined,
+                    TableDescription: result.TableDescription,
+                },
                 executionTime,
                 ...this.getRequestInfo(req),
             });
@@ -289,8 +304,12 @@ export class LoggedDynamoApiController extends DynamoApiController {
             dbLogger.log({
                 operation: 'deleteTable',
                 tableName: input.TableName || 'unknown',
-                parameters: {},
+                parameters: this.getParametersToLog(input),
                 executionTime,
+                sdkResponse:
+                    error instanceof Error && (error as any).$metadata
+                        ? { $metadata: (error as any).$metadata }
+                        : undefined,
                 error: error instanceof Error ? error.message : String(error),
                 ...this.getRequestInfo(req),
             });

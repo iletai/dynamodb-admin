@@ -14,3 +14,66 @@
 {"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":8,"timestamp":"2025-07-08T16:50:32.098Z"}
 {"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":12,"timestamp":"2025-07-08T16:50:32.111Z"}
 {"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":7,"timestamp":"2025-07-08T16:50:32.118Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":13,"timestamp":"2025-07-08T19:02:26.272Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":12,"timestamp":"2025-07-08T19:02:26.284Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":12,"timestamp":"2025-07-08T19:02:26.296Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":15,"timestamp":"2025-07-08T19:02:36.254Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":9,"timestamp":"2025-07-08T19:02:36.263Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":12,"timestamp":"2025-07-08T19:02:36.275Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":12,"timestamp":"2025-07-08T19:16:13.666Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":9,"timestamp":"2025-07-08T19:16:13.675Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":10,"timestamp":"2025-07-08T19:16:13.685Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":13,"timestamp":"2025-07-08T19:16:21.911Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":11,"timestamp":"2025-07-08T19:16:21.922Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":17,"timestamp":"2025-07-08T19:16:21.939Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":41,"timestamp":"2025-07-08T19:17:07.489Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":9,"timestamp":"2025-07-08T19:17:07.498Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":8,"timestamp":"2025-07-08T19:17:07.506Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":10,"timestamp":"2025-07-08T19:17:10.270Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":8,"timestamp":"2025-07-08T19:17:10.279Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":9,"timestamp":"2025-07-08T19:17:10.290Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":12,"timestamp":"2025-07-08T19:17:22.687Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":10,"timestamp":"2025-07-08T19:17:22.697Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":8,"timestamp":"2025-07-08T19:17:22.705Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":17,"timestamp":"2025-07-08T19:17:32.270Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":11,"timestamp":"2025-07-08T19:17:32.281Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":10,"timestamp":"2025-07-08T19:17:32.291Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":14,"timestamp":"2025-07-08T19:17:54.504Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":10,"timestamp":"2025-07-08T19:17:54.514Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":9,"timestamp":"2025-07-08T19:17:54.523Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":12,"timestamp":"2025-07-08T19:17:57.358Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":9,"timestamp":"2025-07-08T19:17:57.367Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":10,"timestamp":"2025-07-08T19:17:57.377Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":8,"timestamp":"2025-07-08T19:18:12.643Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":8,"timestamp":"2025-07-08T19:18:12.652Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":7,"timestamp":"2025-07-08T19:18:12.659Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":14,"timestamp":"2025-07-08T19:18:14.839Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":11,"timestamp":"2025-07-08T19:18:14.851Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":16,"timestamp":"2025-07-08T19:18:14.867Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":36,"timestamp":"2025-07-08T19:18:25.378Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":16,"timestamp":"2025-07-08T19:18:25.394Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":10,"timestamp":"2025-07-08T19:18:25.404Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":13,"timestamp":"2025-07-08T19:18:27.286Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":12,"timestamp":"2025-07-08T19:18:27.298Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":20,"timestamp":"2025-07-08T19:18:27.319Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":10,"executionTime":19,"timestamp":"2025-07-08T19:18:36.185Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":10,"executionTime":16,"timestamp":"2025-07-08T19:18:36.201Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":0,"executionTime":9,"timestamp":"2025-07-08T19:18:36.210Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":1,"executionTime":21,"timestamp":"2025-07-08T19:19:25.124Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":15,"timestamp":"2025-07-08T19:19:25.140Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"contains ( #key0 , :key0)","Limit":10},"responseCount":0,"executionTime":10,"timestamp":"2025-07-08T19:19:25.150Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":18,"timestamp":"2025-07-08T19:20:12.158Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":12,"timestamp":"2025-07-08T19:20:12.170Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":8,"timestamp":"2025-07-08T19:20:12.178Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":10,"executionTime":43,"timestamp":"2025-07-08T19:20:18.149Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":10,"executionTime":17,"timestamp":"2025-07-08T19:20:18.166Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":0,"executionTime":15,"timestamp":"2025-07-08T19:20:18.181Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":35,"timestamp":"2025-07-08T19:21:18.299Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":10,"executionTime":13,"timestamp":"2025-07-08T19:21:18.312Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"Limit":10},"responseCount":0,"executionTime":8,"timestamp":"2025-07-08T19:21:18.320Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":10,"executionTime":21,"timestamp":"2025-07-08T19:21:23.861Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":10,"executionTime":19,"timestamp":"2025-07-08T19:21:23.880Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","Limit":10},"responseCount":0,"executionTime":20,"timestamp":"2025-07-08T19:21:23.900Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","ExpressionAttributeNames":{"#key0":"PK"},"Limit":10},"responseCount":10,"scannedCount":10,"sdkResponse":{"$metadata":{"httpStatusCode":200,"requestId":"0c430e7d-5b54-4480-8039-eca61ba93ef0","attempts":1,"totalRetryDelay":0}},"executionTime":27,"timestamp":"2025-07-08T19:22:16.547Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","ExclusiveStartKey":{"SK":"shp#12345","PK":"o#12345"},"ExpressionAttributeNames":{"#key0":"PK"},"Limit":10},"responseCount":10,"scannedCount":10,"sdkResponse":{"$metadata":{"httpStatusCode":200,"requestId":"aae3639a-732e-45bd-bdfb-62299c9b7da5","attempts":1,"totalRetryDelay":0}},"executionTime":20,"timestamp":"2025-07-08T19:22:16.569Z"}
+{"operation":"scan","tableName":"OnlineShop","parameters":{"FilterExpression":"attribute_exists ( #key0 )","ExclusiveStartKey":{"SK":"w#12376","PK":"p#99887"},"ExpressionAttributeNames":{"#key0":"PK"},"Limit":10},"responseCount":0,"scannedCount":0,"sdkResponse":{"$metadata":{"httpStatusCode":200,"requestId":"2a8a8ea3-ebfe-4404-92a5-12ae027ff460","attempts":1,"totalRetryDelay":0}},"executionTime":18,"timestamp":"2025-07-08T19:22:16.592Z"}

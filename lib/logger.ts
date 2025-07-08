@@ -13,6 +13,8 @@ export interface LogEntry {
     | 'deleteTable';
     tableName: string;
     parameters?: any;
+    scannedCount?: number;
+    sdkResponse?: any;
     responseCount?: number;
     executionTime?: number;
     error?: string;
