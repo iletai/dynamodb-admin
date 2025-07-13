@@ -5,3 +5,5 @@ yarn.lock
 .vscode/
 .npmrc
 dist/
+logs/dynamodb-operations.log
+.github/commit-instruction.md
